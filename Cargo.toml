@@ -1,5 +1,5 @@
 [package]
-name = "sudoku-gen-rs"
+name = "sudoku-z3-rs"
 version = "0.1.0"
 edition = "2021"
 

@@ -75,9 +75,7 @@ pub struct Model<'ctx> {
 }
 
 impl<'ctx> Model<'ctx> {
-    pub fn new(ctx: &'ctx z3::Context, input: &str) -> Model<'ctx> {
-        let input: String = input.chars().filter(|ch| !ch.is_whitespace()).collect();
-        let input = input.as_bytes();
+    pub fn new(ctx: &'ctx z3::Context, input: &Vec<u8>) -> Model<'ctx> {
         let mut board = HashMap::<Pos, Cell>::new();
 
         for y in 0..BOARD_SIZE {

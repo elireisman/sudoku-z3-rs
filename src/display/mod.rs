@@ -16,11 +16,7 @@ fn vertical() -> String {
     format!("{}{}{}", WHITE, "|", CLEAR)
 }
 
-pub fn from_input(input: &str) -> String {
-    let input: String = input.chars().filter(|ch| !ch.is_whitespace()).collect();
-    let input = input.as_bytes();
-    assert_eq!(81, input.len());
-
+pub fn from_input(input: &Vec<u8>) -> String {
     let mut out = String::new();
     for y in 0..BOARD_SIZE {
         if y % 3 == 0 {

@@ -96,11 +96,16 @@ impl<'ctx> Model<'ctx> {
     }
 
     fn apply_constraints(&self, solver: &'ctx z3::Solver) {
+        // all cells in the Sudoku board must hold values in [1,9]
         self.board
             .values()
             .for_each(|cell| cell.apply_constraints(self.ctx, solver));
+
+        // all rows of the Sudoku board must contain unique values
         self.constrain_rows(solver);
+        // all columns of the Sudoku board must contain unique values
         self.constrain_cols(solver);
+        // all 3x3 cubes of the Sudoku board must contain unique values
         self.constrain_cubes(solver);
     }
 

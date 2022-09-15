@@ -81,8 +81,8 @@ impl Args {
         }
 
         // validate distinct in cube
-        let top = y % 3;
-        let left = x % 3;
+        let top = (y / 3) * 3;
+        let left = (x / 3) * 3;
         for check_y in top..(top + 3) {
             for check_x in left..(left + 3) {
                 if check_y != x && check_x != x {

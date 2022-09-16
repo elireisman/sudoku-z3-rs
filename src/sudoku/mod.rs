@@ -112,38 +112,14 @@ impl<'ctx> Model<'ctx> {
     fn constrain_rows(&self, solver: &'ctx z3::Solver) {
         for y in 0..BOARD_SIZE {
             let row_cells = self.get_row(y);
-            let pair_clauses = row_cells
-                .into_iter()
-                .combinations(2)
-                .map(|pair| {
-                    let lt = pair[0].lt(pair[1]);
-                    let gt = pair[0].gt(pair[1]);
-                    let clauses = vec![&lt, &gt];
-                    z3::ast::Bool::or(self.ctx, &clauses)
-                })
-                .collect::<Vec<_>>();
-            let assertions_expr =
-                z3::ast::Bool::and(self.ctx, &pair_clauses.iter().collect::<Vec<_>>());
-            solver.assert(&assertions_expr);
+            self.constrain_distinct_values(row_cells, solver);
         }
     }
 
     fn constrain_cols(&self, solver: &z3::Solver) {
         for x in 0..BOARD_SIZE {
             let col_cells = self.get_column(x);
-            let pair_clauses = col_cells
-                .into_iter()
-                .combinations(2)
-                .map(|pair: Vec<&'ctx z3::ast::Int<'_>>| {
-                    let lt = pair[0].lt(pair[1]);
-                    let gt = pair[0].gt(pair[1]);
-                    let clauses = vec![&lt, &gt];
-                    z3::ast::Bool::or(self.ctx, &clauses)
-                })
-                .collect::<Vec<_>>();
-            let assertions_expr =
-                z3::ast::Bool::and(self.ctx, &pair_clauses.iter().collect::<Vec<_>>());
-            solver.assert(&assertions_expr);
+            self.constrain_distinct_values(col_cells, solver);
         }
     }
 
@@ -160,20 +136,25 @@ impl<'ctx> Model<'ctx> {
             Pos { x: 6, y: 6 },
         ] {
             let cube_cells = self.get_cube(cube);
-            let pair_clauses = cube_cells
-                .into_iter()
-                .combinations(2)
-                .map(|pair: Vec<&'ctx z3::ast::Int<'_>>| {
-                    let lt = pair[0].lt(pair[1]);
-                    let gt = pair[0].gt(pair[1]);
-                    let clauses = vec![&lt, &gt];
-                    z3::ast::Bool::or(self.ctx, &clauses)
-                })
-                .collect::<Vec<_>>();
-            let assertions_expr =
-                z3::ast::Bool::and(self.ctx, &pair_clauses.iter().collect::<Vec<_>>());
-            solver.assert(&assertions_expr);
+            self.constrain_distinct_values(cube_cells, solver);
         }
+    }
+
+    // take a selected subset of Sudoku board cells (row, col, 3x3 cube)
+    // and ensure every value in the subset is constrainted in Z3 as distinct.
+    fn constrain_distinct_values(&self, board_cells: Vec<&'ctx z3::ast::Int>, solver: &z3::Solver) {
+        let all_pairs = board_cells
+            .into_iter()
+            .combinations(2)
+            .map(|pair: Vec<&'ctx z3::ast::Int<'_>>| {
+                let lt = pair[0].lt(pair[1]);
+                let gt = pair[0].gt(pair[1]);
+                let clauses = vec![&lt, &gt];
+                z3::ast::Bool::or(self.ctx, &clauses)
+            })
+            .collect::<Vec<_>>();
+        let assertions_expr = z3::ast::Bool::and(self.ctx, &all_pairs.iter().collect::<Vec<_>>());
+        solver.assert(&assertions_expr);
     }
 
     fn get_cube(&self, top_left: Pos) -> Vec<&'ctx z3::ast::Int> {

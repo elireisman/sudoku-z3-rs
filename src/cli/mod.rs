@@ -10,7 +10,7 @@ pub struct Args {
         short,
         long,
         help = "Generate an input Sudoku board to solve; arg is number of seed values to apply",
-        default_value = "14"
+        default_value = "18"
     )]
     pub generate: usize,
 

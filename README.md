@@ -20,4 +20,4 @@ $ cargo r -- --generate 16
 
 Screenshot:
 
-<img width="757" alt="Screen Shot 2022-09-18 at 2 52 44 PM" src="https://user-images.githubusercontent.com/32776521/190929455-ea61bb47-970c-4896-91aa-be954721fdcc.png">
+<img width="726" alt="Screen Shot 2022-09-18 at 4 47 19 PM" src="https://user-images.githubusercontent.com/32776521/190933310-c8877bb7-300a-4974-a1d4-a270372ca58a.png">

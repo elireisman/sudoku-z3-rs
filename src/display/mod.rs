@@ -17,6 +17,7 @@ const BOTTOM_LEFT_CORNER: &str = "\x1b(0\x6d";
 const VERTICAL: &str = "\x1b(0\x78\x1b(0";
 const HORIZONTAL: &str = "\x1b(0\x71";
 const TOP_SPLIT: &str = "\x1b(0\x77";
+const SPLIT: &str = "\x1b(0\x6e";
 const BOTTOM_SPLIT: &str = "\x1b(0\x76";
 const EOL: &str = "\x1b(B\n";
 
@@ -46,9 +47,9 @@ fn horizontal() -> String {
         vec![
             LEFT_CORNER,
             &HORIZONTAL.repeat(9),
-            TOP_SPLIT,
+            SPLIT,
             &HORIZONTAL.repeat(9),
-            TOP_SPLIT,
+            SPLIT,
             &HORIZONTAL.repeat(9),
             RIGHT_CORNER,
             EOL,

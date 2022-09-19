@@ -54,7 +54,7 @@ impl<'ctx> Cell<'ctx> {
         return &self.value;
     }
 
-    pub fn is_solution(&self) -> bool {
+    pub fn is_from_input(&self) -> bool {
         return self.from_input;
     }
 

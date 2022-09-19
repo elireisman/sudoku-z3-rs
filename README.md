@@ -1,5 +1,5 @@
 ## Z3 Sudoku Solver + Rust
-This is just a toy to play with the [Rust bindings](https://github.com/prove-rs/z3.rs) for the [Z3 SMT Solver](http://theory.stanford.edu/~nikolaj/programmingz3.html). This binding is still missing some nice-to-have APIs so I used what was available.
+This is just a toy to play with the [Rust bindings](https://github.com/prove-rs/z3.rs) for the [Z3 SMT Solver](http://theory.stanford.edu/~nikolaj/programmingz3.html).
 
 Quick and dirty examples:
 ```

@@ -139,8 +139,6 @@ impl<'ctx> Model<'ctx> {
         }
     }
 
-    // take a selected subset of Sudoku board cells (row, col, 3x3 cube)
-    // and ensure every value in the subset is constrainted in Z3 as distinct.
     fn constrain_distinct_values(&self, board_cells: Vec<&'ctx z3::ast::Int>, solver: &z3::Solver) {
         let assertions_expr = z3::ast::Ast::distinct(self.ctx, &board_cells[..]);
         solver.assert(&assertions_expr);

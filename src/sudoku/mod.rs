@@ -1,4 +1,3 @@
-use itertools::Itertools;
 use std::collections::HashMap;
 
 pub const BOARD_SIZE: usize = 9;
@@ -143,17 +142,7 @@ impl<'ctx> Model<'ctx> {
     // take a selected subset of Sudoku board cells (row, col, 3x3 cube)
     // and ensure every value in the subset is constrainted in Z3 as distinct.
     fn constrain_distinct_values(&self, board_cells: Vec<&'ctx z3::ast::Int>, solver: &z3::Solver) {
-        let all_pairs = board_cells
-            .into_iter()
-            .combinations(2)
-            .map(|pair: Vec<&'ctx z3::ast::Int<'_>>| {
-                let lt = pair[0].lt(pair[1]);
-                let gt = pair[0].gt(pair[1]);
-                let clauses = vec![&lt, &gt];
-                z3::ast::Bool::or(self.ctx, &clauses)
-            })
-            .collect::<Vec<_>>();
-        let assertions_expr = z3::ast::Bool::and(self.ctx, &all_pairs.iter().collect::<Vec<_>>());
+        let assertions_expr = z3::ast::Ast::distinct(self.ctx, &board_cells[..]);
         solver.assert(&assertions_expr);
     }
 

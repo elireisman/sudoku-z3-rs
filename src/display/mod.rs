@@ -35,7 +35,7 @@ fn render(board: BoardView) -> String {
                 }
                 CellView(value, from_input) => {
                     let elem = match from_input {
-                        true => format!("{} {} {}", RED, value, CLEAR),
+                        true => format!("{} {} {}", YELLOW, value, CLEAR),
                         false => format!("{} {} {}", GREEN, value, CLEAR),
                     };
                     out.push_str(&elem);
@@ -55,7 +55,7 @@ pub const CLEAR: &str = "\x1b[0;0m";
 pub const RED_FG: &str = "\x1b[31m";
 pub const GREEN_FG: &str = "\x1b[32m";
 
-const RED: &str = "\x1b[1;43m";
+const YELLOW: &str = "\x1b[1;43m";
 const GREEN: &str = "\x1b[1;42m";
 const BLUE_FG: &str = "\x1b[0;44m";
 const WHITE: &str = "\x1b[1;37m";
@@ -141,7 +141,7 @@ fn view_from_input(input: &Vec<u8>) -> BoardView {
                     if value < 1 || value > 9 {
                         panic!("illegal input value: {} must be in range [1..9]", value);
                     }
-                    CellView(value, false)
+                    CellView(value, true)
                 }
             };
 
